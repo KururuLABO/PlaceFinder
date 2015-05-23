@@ -1,5 +1,11 @@
 package com.ossyria.placefinder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Created by KururuLABO on 5/24/2015.
  */
@@ -46,6 +52,24 @@ public class PlaceInfo {
     }
     public void setVicinity(String vicinity) {
         this.vicinity = vicinity;
+    }
+
+    static PlaceInfo GetPlaceInfo(JSONObject json) {
+        try {
+            PlaceInfo result = new PlaceInfo();
+            JSONObject geometry = (JSONObject) json.get("geometry");
+            JSONObject location = (JSONObject) geometry.get("location");
+            result.setLatitude((Double) location.get("lat"));
+            result.setLongitude((Double) location.get("lng"));
+            result.setIcon(json.getString("icon"));
+            result.setName(json.getString("name"));
+            result.setVicinity(json.getString("vicinity"));
+            result.setId(json.getString("id"));
+            return result;
+        } catch (JSONException ex) {
+            Logger.getLogger(PlaceInfo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     @Override
