@@ -3,4 +3,9 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="apikey" translatable="false" templateMergeStrategy="preserve">AIzaSyAHXCWsM18JJUetaKhYkMmEYCYrayQe-4c</string>
+
+
+
 </resources>
