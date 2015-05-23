@@ -24,7 +24,7 @@ public class OssyriaSearchEngine {
     //endregion
     //region Constructor
     public OssyriaSearchEngine(String key) {
-        this.API_KEY = key;
+        this.API_KEY = key+"1";
     }
     //endregion
     //region Getter

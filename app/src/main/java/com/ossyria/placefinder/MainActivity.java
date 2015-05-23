@@ -1,6 +1,7 @@
 package com.ossyria.placefinder;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -21,10 +22,15 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         map = ((MapFragment)getFragmentManager().findFragmentById(R.id.map)).getMap();
-        new GetPlacesTask().execute();
+        new GetPlacesTask(MainActivity.this).execute();
     }
 
     private class GetPlacesTask extends AsyncTask<Void, Void, Result> {
+        private Context context;
+
+        public GetPlacesTask(Context pContext) {
+            this.context = pContext;
+        }
 
         @Override
         protected Result doInBackground(Void... params) {
@@ -37,8 +43,12 @@ public class MainActivity extends Activity {
         protected void onPostExecute(Result result) { //???????????? ?? Backgrounds ?????????
             super.onPostExecute(result);
             if(!result.getStatus().equals("OK")) {
-                //TODO If status != ok then show toast
+                Toast.makeText(this.context, "Error : " + result.getStatus(), Toast.LENGTH_SHORT).show();
+                return;
             }
+
+
+
 
         }
     }
