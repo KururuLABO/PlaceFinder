@@ -79,7 +79,6 @@ public class MainActivity extends Activity {
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            System.out.println("Changed ??");
             //Toast.makeText(MainActivity.this, "Location Chagned to : ", Toast.LENGTH_SHORT).show();
             mUserLocation = location;
             new GetPlacesTask(MainActivity.this, mPlaceName[1][mSpinner.getSelectedItemPosition()].replace(" ", "_").toLowerCase()).execute();
@@ -133,6 +132,12 @@ public class MainActivity extends Activity {
                 );
             }
 
+            mMap.addMarker(new MarkerOptions()
+                            .title("You are Here")
+                            .position(new LatLng(mUserLocation.getLatitude(),
+                                    mUserLocation.getLongitude()))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_current))
+            );
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     //.target(new LatLng(13.7380289, 100.3680477)) // Sets the center of the map to
                     .target(new LatLng(mUserLocation.getLatitude(), mUserLocation.getLongitude())) // Sets the center of the map to
