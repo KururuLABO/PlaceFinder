@@ -5,6 +5,8 @@ import android.content.Context;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
     private GoogleMap mMap;
     private LocationManager mLocationmgr;
+    String[] PlaceName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +34,26 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         mMap = ((MapFragment)getFragmentManager().findFragmentById(R.id.map)).getMap();
-        new GetPlacesTask(MainActivity.this).execute();
-
+        PlaceName = getResources().getStringArray(R.array.places);
+        new GetPlacesTask(MainActivity.this, PlaceName[0].replace(" ","_").toLowerCase()).execute();
 
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.places)); //selected item will look like a spinner set from XML
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, PlaceName); //selected item will look like a spinner set from XML
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
         spinner.setSelection(0);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                new GetPlacesTask(MainActivity.this, PlaceName[position].replace(" ", "_").toLowerCase()).execute();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
     }
@@ -49,15 +64,23 @@ public class MainActivity extends Activity {
 
     private class GetPlacesTask extends AsyncTask<Void, Void, Result> {
         private Context context;
+        private String FindType;
 
-        public GetPlacesTask(Context pContext) {
+        public GetPlacesTask(Context pContext,String type) {
             this.context = pContext;
+            this.FindType = type;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mMap.clear();
         }
 
         @Override
         protected Result doInBackground(Void... params) {
             OssyriaSearchEngine engine = new OssyriaSearchEngine(getResources().getString(R.string.api_placekey));
-            Result result = engine.findPlaces(13.7380289, 100.3680477, "hospital"); //For testing to find hospital
+            Result result = engine.findPlaces(13.7380289, 100.3680477, FindType); //For testing to find hospital
             return result;
         }
 

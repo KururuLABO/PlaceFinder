@@ -10,6 +10,12 @@
     <string-array name="places">
         <item >Hospital</item>
         <item >Police</item>
+        <item >Airport</item>
+        <item >Gas station</item>
+        <item >Gym</item>
+        <item >Shopping Mall</item>
+        <item >Parking</item>
+
     </string-array>
 
 </resources>
