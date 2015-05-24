@@ -20,25 +20,38 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 
 public class MainActivity extends Activity {
     private GoogleMap mMap;
     private LocationManager mLocationmgr;
-    String[] PlaceName;
+    String[][] PlaceName; //[Name][type]
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        int index = 0;
+        byte length = (byte)getResources().getStringArray(R.array.places).length;
+        PlaceName = new String[2][length];
+        for(String item : getResources().getStringArray(R.array.places)) {
+            System.out.println("Item : " + item);
+            PlaceName[0][index] = getName(item);
+            PlaceName[1][index] = getType(item);
+            index++;
+        }
+
         mMap = ((MapFragment)getFragmentManager().findFragmentById(R.id.map)).getMap();
-        PlaceName = getResources().getStringArray(R.array.places);
-        new GetPlacesTask(MainActivity.this, PlaceName[0].replace(" ","_").toLowerCase()).execute();
+        //PlaceName = getResources().getStringArray(R.array.places);
+        new GetPlacesTask(MainActivity.this, PlaceName[1][0].replace(" ","_").toLowerCase()).execute(); // Initialization
 
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, PlaceName); //selected item will look like a spinner set from XML
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, PlaceName[0]); //selected item will look like a spinner set from XML
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
         spinner.setSelection(0);
@@ -46,7 +59,7 @@ public class MainActivity extends Activity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                new GetPlacesTask(MainActivity.this, PlaceName[position].replace(" ", "_").toLowerCase()).execute();
+                new GetPlacesTask(MainActivity.this, PlaceName[1][position].replace(" ", "_").toLowerCase()).execute();
             }
 
             @Override
@@ -57,6 +70,30 @@ public class MainActivity extends Activity {
 
 
     }
+
+    private String getName(String pJson) {
+        System.out.println("json : "+pJson);
+        try {
+            System.out.println("json : "+pJson);
+            JSONObject json = new JSONObject(pJson);
+            System.out.println("name : "+json.getString("name"));
+            return json.getString("name");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private String getType(String pJson) {
+        try {
+            JSONObject json = new JSONObject(pJson);
+            return json.getString("type");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 
     private void getCurrentLocaltion() {
 
