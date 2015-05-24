@@ -56,7 +56,7 @@ public class OssyriaSearchEngine {
     }
 
     //ตัวอย่าง url แบบเต็มๆ
-    //https://maps.googleapis.com/maps/api/place/search/json?location=13.7380289,100.3680477&types=Hospital&radius=100000&key=AIzaSyCVp-2nnXkTGCpSdpxTPgwSDUW3b-1ErDY&sensor=true
+    //https://maps.googleapis.com/maps/api/place/search/json?location=13.7380289,100.3680477&types=hospital&radius=100000&key=AIzaSyCVp-2nnXkTGCpSdpxTPgwSDUW3b-1ErDY&sensor=false
     private String BuildUrl(double pLatitude, double pLongitude, String pType) {
         StringBuilder resultURL = new StringBuilder("https://maps.googleapis.com/maps/api/place/search/json?");
         resultURL.append("&location=");

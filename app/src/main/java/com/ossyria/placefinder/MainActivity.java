@@ -41,7 +41,10 @@ public class MainActivity extends Activity {
         //endregion
         //region Intialzation Location Manager
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000 * 1 * 1, 10, mLocationListener); // Update every 1 second
+        mUserLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        System.out.println("Lastnoiche : "+mUserLocation.getLatitude());
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, mLocationListener); // Update every 1 second
+
         //endregion
         //region Initialzation Spinner Menu
         int index = 0;
@@ -76,9 +79,11 @@ public class MainActivity extends Activity {
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
+            System.out.println("Changed ??");
+            //Toast.makeText(MainActivity.this, "Location Chagned to : ", Toast.LENGTH_SHORT).show();
             mUserLocation = location;
             new GetPlacesTask(MainActivity.this, mPlaceName[1][mSpinner.getSelectedItemPosition()].replace(" ", "_").toLowerCase()).execute();
-            //Toast.makeText(MainActivity.this, "Location Chagned to : ", Toast.LENGTH_SHORT).show();
+
         }
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {}
@@ -100,12 +105,6 @@ public class MainActivity extends Activity {
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mMap.clear();
-        }
-
-        @Override
         protected Result doInBackground(Void... params) {
             OssyriaSearchEngine engine = new OssyriaSearchEngine(getResources().getString(R.string.api_placekey));
             Result result = engine.findPlaces(mUserLocation.getLatitude(), mUserLocation.getLongitude(), FindType); //For testing to find hospital
@@ -123,7 +122,7 @@ public class MainActivity extends Activity {
                 //Error ??????????????????????? ???? Over_query Limit
                 return;
             }
-
+            mMap.clear();
             for(int i = 0; i < result.getPlaces().size(); i++) {
                 mMap.addMarker(new MarkerOptions()
                     .title(result.getPlaces().get(i).getName())
@@ -134,7 +133,6 @@ public class MainActivity extends Activity {
                 );
             }
 
-            Toast.makeText(MainActivity.this, "Location Chagned to : "+mUserLocation.getLatitude()+","+mUserLocation.getLongitude(), Toast.LENGTH_SHORT).show();
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     //.target(new LatLng(13.7380289, 100.3680477)) // Sets the center of the map to
                     .target(new LatLng(mUserLocation.getLatitude(), mUserLocation.getLongitude())) // Sets the center of the map to
