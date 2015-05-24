@@ -1,4 +1,4 @@
-package com.ossyria.placefinder;
+package com.ossyria.placefinder.Helper;
 
 import org.json.JSONException;
 import org.json.JSONObject;

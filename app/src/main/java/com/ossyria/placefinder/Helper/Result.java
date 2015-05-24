@@ -1,4 +1,6 @@
-package com.ossyria.placefinder;
+package com.ossyria.placefinder.Helper;
+
+import com.ossyria.placefinder.Helper.PlaceInfo;
 
 import java.util.ArrayList;
 

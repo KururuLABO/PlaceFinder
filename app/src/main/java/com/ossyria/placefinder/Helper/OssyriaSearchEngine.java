@@ -1,7 +1,4 @@
-package com.ossyria.placefinder;
-
-import android.content.Context;
-import android.widget.Toast;
+package com.ossyria.placefinder.Helper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,9 +29,7 @@ public class OssyriaSearchEngine {
         return API_KEY;
     }
     //endregion
-    //region Methods
-
-
+    //region Method
     public Result findPlaces(double pLatitude, double pLongitude, String pType) {
         String url = BuildUrl(pLatitude,pLongitude,pType);
         try {
@@ -93,6 +88,5 @@ public class OssyriaSearchEngine {
         }
         return content.toString();
     }
-
     //endregion
 }
