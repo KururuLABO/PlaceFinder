@@ -24,7 +24,7 @@ public class OssyriaSearchEngine {
     //endregion
     //region Constructor
     public OssyriaSearchEngine(String key) {
-        this.API_KEY = key+"1";
+        this.API_KEY = key;
     }
     //endregion
     //region Getter
@@ -37,6 +37,7 @@ public class OssyriaSearchEngine {
 
     public Result findPlaces(double pLatitude, double pLongitude, String pType) {
         String url = BuildUrl(pLatitude,pLongitude,pType);
+        System.out.println("URL : "+url);
         try {
             String plainText = getPlainTextFromURL(url);
 

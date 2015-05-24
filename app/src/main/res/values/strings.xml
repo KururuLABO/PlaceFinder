@@ -7,5 +7,9 @@
     <string name="api_mapkey" translatable="false" templateMergeStrategy="preserve">AIzaSyAHXCWsM18JJUetaKhYkMmEYCYrayQe-4c</string>
     <string name="api_placekey" translatable="false" templateMergeStrategy="preserve">AIzaSyCVp-2nnXkTGCpSdpxTPgwSDUW3b-1ErDY</string>
 
+    <string-array name="places">
+        <item >Hospital</item>
+        <item >Police</item>
+    </string-array>
 
 </resources>
