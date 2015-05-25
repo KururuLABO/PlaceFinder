@@ -131,9 +131,6 @@ public class MainActivity extends Activity {
                 //Error ??????????????????????? ???? Over_query Limit
                 return;
             }
-
-
-
             mMap.clear();
             for(int i = 0; i < result.getPlaces().size(); i++) {
                 mMap.addMarker(new MarkerOptions()
