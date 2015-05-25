@@ -1,7 +1,5 @@
 package com.ossyria.placefinder.Helper;
 
-import com.ossyria.placefinder.Helper.PlaceInfo;
-
 import java.util.ArrayList;
 
 /**
@@ -9,17 +7,17 @@ import java.util.ArrayList;
  * This class for multiple result return;
  */
 public class Result {
-    private String Status;
-    private ArrayList<PlaceInfo> places;
+    private String mStatus;
+    private ArrayList<PlaceInfo> mPlaces;
 
     public String getStatus() {
-        return Status;
+        return mStatus;
     }
-    public void setStatus(String pStatus) { this.Status = pStatus; }
+    public void setStatus(String pStatus) { this.mStatus = pStatus; }
     public ArrayList<PlaceInfo> getPlaces() {
-        return places;
+        return mPlaces;
     }
-    public void setPlaces(ArrayList<PlaceInfo> pPlaces) { this.places =  pPlaces; }
+    public void setPlaces(ArrayList<PlaceInfo> pPlaces) { this.mPlaces =  pPlaces; }
 
 
 }

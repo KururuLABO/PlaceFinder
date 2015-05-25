@@ -23,6 +23,8 @@ import com.ossyria.placefinder.Helper.JSONHelper;
 import com.ossyria.placefinder.Helper.OssyriaSearchEngine;
 import com.ossyria.placefinder.Helper.Result;
 
+import java.util.List;
+
 
 public class MainActivity extends Activity {
     //region Variable
@@ -41,10 +43,24 @@ public class MainActivity extends Activity {
         mMap = ((MapFragment)getFragmentManager().findFragmentById(R.id.map)).getMap();
         //endregion
         //region Intialzation Location Manager
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        mUserLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        System.out.println("Lastnoiche : "+mUserLocation.getLatitude());
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, mLocationListener); // Update every 1 seconds and 10 meters
+        mLocationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, mLocationListener);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for(String p : providers) {
+            Location loc = mLocationManager.getLastKnownLocation(p);
+            if(loc==null)
+                continue;
+            if(bestLocation == null || loc.getAccuracy() < bestLocation.getAccuracy()) {
+                bestLocation = loc;
+            }
+        }
+        mUserLocation = bestLocation;
+
+
+        //mUserLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        System.out.println("Lastnoiche : " + mUserLocation.getLatitude());
+         // Update every 1 seconds and 10 meters
 
         //mLocationManager.removeUpdates(mLocationListener);
 
@@ -102,40 +118,40 @@ public class MainActivity extends Activity {
     //endregion
     //region AsyncTask
     private class GetPlacesTask extends AsyncTask<Void, Void, Result> {
-        private Context context;
-        private String FindType;
+        private Context mContext;
+        private String mFindType;
 
-        public GetPlacesTask(Context pContext,String type) {
-            this.context = pContext;
-            this.FindType = type;
+        public GetPlacesTask(Context pContext,String pType) {
+            this.mContext = pContext;
+            this.mFindType = pType;
         }
 
         @Override
         protected Result doInBackground(Void... params) {
             OssyriaSearchEngine engine = new OssyriaSearchEngine(getResources().getString(R.string.api_placekey));
-            Result result = engine.findPlaces(mUserLocation.getLatitude(), mUserLocation.getLongitude(), FindType); //For testing to find hospital
+            Result result = engine.findPlaces(mUserLocation.getLatitude(), mUserLocation.getLongitude(), mFindType); //For testing to find hospital
             return result;
         }
 
         @Override
-        protected void onPostExecute(Result result) { //???????????? ?? Backgrounds ?????????
-            super.onPostExecute(result);
-            if(!result.getStatus().equals("OK")) {
-                if(result.getStatus().equals("ZERO_RESULTS"))
-                    Toast.makeText(this.context, "Sorry, Can't find " + mPlaceName[0][mSpinner.getSelectedItemPosition()] + " in range 5 km.", Toast.LENGTH_SHORT).show();
-                if(result.getStatus().equals("REQUEST_DENIED"))
-                    Toast.makeText(this.context, "Sorry, Can't request location. Please contact to administrator", Toast.LENGTH_SHORT).show();
+        protected void onPostExecute(Result pResult) { //???????????? ?? Backgrounds ?????????
+            super.onPostExecute(pResult);
+            if(!pResult.getStatus().equals("OK")) {
+                if(pResult.getStatus().equals("ZERO_RESULTS"))
+                    Toast.makeText(this.mContext, "Sorry, Can't find " + mPlaceName[0][mSpinner.getSelectedItemPosition()] + " in range 5 km.", Toast.LENGTH_SHORT).show();
+                if(pResult.getStatus().equals("REQUEST_DENIED"))
+                    Toast.makeText(this.mContext, "Sorry, Can't request location. Please contact to administrator", Toast.LENGTH_SHORT).show();
                 //Error ??????????????????????? ???? Over_query Limit
                 return;
             }
             mMap.clear();
-            for(int i = 0; i < result.getPlaces().size(); i++) {
+            for(int i = 0; i < pResult.getPlaces().size(); i++) {
                 mMap.addMarker(new MarkerOptions()
-                    .title(result.getPlaces().get(i).getName())
-                    .position(new LatLng(result.getPlaces().get(i).getLatitude(),
-                                         result.getPlaces().get(i).getLongitude()))
+                    .title(pResult.getPlaces().get(i).getName())
+                    .position(new LatLng(pResult.getPlaces().get(i).getLatitude(),
+                                         pResult.getPlaces().get(i).getLongitude()))
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
-                    .snippet(result.getPlaces().get(i).getVicinity())
+                    .snippet(pResult.getPlaces().get(i).getVicinity())
                 );
             }
 

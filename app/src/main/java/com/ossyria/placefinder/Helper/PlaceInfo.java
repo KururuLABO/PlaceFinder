@@ -10,41 +10,41 @@ import java.util.logging.Logger;
  * Created by KururuLABO on 5/24/2015.
  */
 public class PlaceInfo {
-    private String id;
-    private String name;
-    private String vicinity;
-    private Double latitude;
-    private Double longitude;
+    private String mId;
+    private String mName;
+    private String mVicinity;
+    private Double mLatitude;
+    private Double mLongitude;
 
     public String getId() {
-        return id;
+        return mId;
     }
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String pId) {
+        this.mId = pId;
     }
     public Double getLatitude() {
-        return latitude;
+        return mLatitude;
     }
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public void setLatitude(Double pLatitude) {
+        this.mLatitude = pLatitude;
     }
     public Double getLongitude() {
-        return longitude;
+        return mLongitude;
     }
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public void setLongitude(Double pLongitude) {
+        this.mLongitude = pLongitude;
     }
     public String getName() {
-        return name;
+        return mName;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String pName) {
+        this.mName = pName;
     }
     public String getVicinity() {
-        return vicinity;
+        return mVicinity;
     }
-    public void setVicinity(String vicinity) {
-        this.vicinity = vicinity;
+    public void setVicinity(String pVicinity) {
+        this.mVicinity = pVicinity;
     }
 
     static PlaceInfo GetPlaceInfo(JSONObject json) {
@@ -66,6 +66,6 @@ public class PlaceInfo {
 
     @Override
     public String toString() {
-        return "Place{" + "id=" + id + ", name=" + name + ", latitude=" + latitude + ", longitude=" + longitude + '}';
+        return "Place{" + "id=" + mId + ", name=" + mName + ", latitude=" + mLatitude + ", longitude=" + mLongitude + '}';
     }
 }
