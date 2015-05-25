@@ -43,7 +43,9 @@ public class MainActivity extends Activity {
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         mUserLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         System.out.println("Lastnoiche : "+mUserLocation.getLatitude());
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, mLocationListener); // Update every 1 second
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, mLocationListener); // Update every 1 seconds and 10 meters
+
+        //mLocationManager.removeUpdates(mLocationListener);
 
         //endregion
         //region Initialzation Spinner Menu
@@ -75,14 +77,22 @@ public class MainActivity extends Activity {
         });
         //endregion
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mLocationManager.removeUpdates(mLocationListener);
+    }
+
     //region Location Listener Event
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
             //Toast.makeText(MainActivity.this, "Location Chagned to : ", Toast.LENGTH_SHORT).show();
-            mUserLocation = location;
-            new GetPlacesTask(MainActivity.this, mPlaceName[1][mSpinner.getSelectedItemPosition()].replace(" ", "_").toLowerCase()).execute();
-
+            //if(mUserLocation.getLongitude() != location.getLongitude() && mUserLocation.getLatitude() != location.getLatitude()) {
+                mUserLocation = location;
+                new GetPlacesTask(MainActivity.this, mPlaceName[1][mSpinner.getSelectedItemPosition()].replace(" ", "_").toLowerCase()).execute();
+            //}
         }
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {}
@@ -115,9 +125,9 @@ public class MainActivity extends Activity {
             super.onPostExecute(result);
             if(!result.getStatus().equals("OK")) {
                 if(!result.getStatus().equals("ZERO_RESULTS"))
-                    Toast.makeText(this.context, "????????????????????????" + mPlaceName[0][mSpinner.getSelectedItemPosition()] + " ????????? 5 ???????? ???", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this.context, "Sorry, Can't find" + mPlaceName[0][mSpinner.getSelectedItemPosition()] + " in range 5 km.", Toast.LENGTH_SHORT).show();
                 if(!result.getStatus().equals("REQUEST_DENIED"))
-                    Toast.makeText(this.context, "???????????????????????????????????????????????????????", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this.context, "Sorry, Can't request location. Please contact to administrator", Toast.LENGTH_SHORT).show();
                 //Error ??????????????????????? ???? Over_query Limit
                 return;
             }

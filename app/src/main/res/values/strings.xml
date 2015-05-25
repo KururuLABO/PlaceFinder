@@ -4,8 +4,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string name="api_mapkey" translatable="false" templateMergeStrategy="preserve">AIzaSyAHXCWsM18JJUetaKhYkMmEYCYrayQe-4c</string>
-    <string name="api_placekey" translatable="false" templateMergeStrategy="preserve">AIzaSyCVp-2nnXkTGCpSdpxTPgwSDUW3b-1ErDY</string>
+    <string name="api_mapkey" translatable="false" templateMergeStrategy="preserve">AIzaSyDBJAv2qOLeSCMJpRMiCBGInKNQBQyXoUw</string>
+    <string name="api_placekey" translatable="false" templateMergeStrategy="preserve">AIzaSyC9QvCleok6s94fSov9f2tbb2fuCRVx0Fg</string>
 
     <string-array name="places">
         <item >{"name":"โรงพยาบาล","type":"hospital"}</item>

@@ -32,6 +32,7 @@ public class OssyriaSearchEngine {
     //region Method
     public Result findPlaces(double pLatitude, double pLongitude, String pType) {
         String url = BuildUrl(pLatitude,pLongitude,pType);
+        System.out.println("URL : "+url);
         try {
             String plainText = getPlainTextFromURL(url);
 
