@@ -71,7 +71,6 @@ public class OssyriaSearchEngine {
 
         return resultURL.toString();
     }
-
     private String getPlainTextFromURL(String pUrl) {
         StringBuilder content = new StringBuilder();
         try {

@@ -27,11 +27,12 @@ import com.ossyria.placefinder.Helper.Result;
 public class MainActivity extends Activity {
     //region Variable
     private GoogleMap mMap;
-    String[][] mPlaceName; //[Name][type]
+    private String[][] mPlaceName; //[Name][type]
     private LocationManager mLocationManager;
     private Location mUserLocation;
     private Spinner mSpinner;
     //endregion
+    //region Override Method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,22 +78,18 @@ public class MainActivity extends Activity {
         });
         //endregion
     }
-
     @Override
     protected void onStop() {
         super.onStop();
         mLocationManager.removeUpdates(mLocationListener);
     }
-
+    //endregion
     //region Location Listener Event
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            //Toast.makeText(MainActivity.this, "Location Chagned to : ", Toast.LENGTH_SHORT).show();
-            //if(mUserLocation.getLongitude() != location.getLongitude() && mUserLocation.getLatitude() != location.getLatitude()) {
-                mUserLocation = location;
-                new GetPlacesTask(MainActivity.this, mPlaceName[1][mSpinner.getSelectedItemPosition()].replace(" ", "_").toLowerCase()).execute();
-            //}
+            mUserLocation = location;
+            new GetPlacesTask(MainActivity.this, mPlaceName[1][mSpinner.getSelectedItemPosition()].replace(" ", "_").toLowerCase()).execute();
         }
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {}

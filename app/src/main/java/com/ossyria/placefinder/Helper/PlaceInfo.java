@@ -11,7 +11,6 @@ import java.util.logging.Logger;
  */
 public class PlaceInfo {
     private String id;
-    private String icon;
     private String name;
     private String vicinity;
     private Double latitude;
@@ -22,12 +21,6 @@ public class PlaceInfo {
     }
     public void setId(String id) {
         this.id = id;
-    }
-    public String getIcon() {
-        return icon;
-    }
-    public void setIcon(String icon) {
-        this.icon = icon;
     }
     public Double getLatitude() {
         return latitude;
@@ -61,7 +54,6 @@ public class PlaceInfo {
             JSONObject location = (JSONObject) geometry.get("location");
             result.setLatitude((Double) location.get("lat"));
             result.setLongitude((Double) location.get("lng"));
-            result.setIcon(json.getString("icon"));
             result.setName(json.getString("name"));
             result.setVicinity(json.getString("vicinity"));
             result.setId(json.getString("id"));
@@ -74,6 +66,6 @@ public class PlaceInfo {
 
     @Override
     public String toString() {
-        return "Place{" + "id=" + id + ", icon=" + icon + ", name=" + name + ", latitude=" + latitude + ", longitude=" + longitude + '}';
+        return "Place{" + "id=" + id + ", name=" + name + ", latitude=" + latitude + ", longitude=" + longitude + '}';
     }
 }
