@@ -126,14 +126,13 @@ public class MainActivity extends Activity {
         }
 
         @Override
-        protected void onPostExecute(Result pResult) { //???????????? ?? Backgrounds ?????????
+        protected void onPostExecute(Result pResult) {
             super.onPostExecute(pResult);
             if(!pResult.getStatus().equals("OK")) {
                 if(pResult.getStatus().equals("ZERO_RESULTS"))
                     Toast.makeText(this.mContext, "Sorry, Can't find " + mPlaceName[0][mSpinner.getSelectedItemPosition()] + " in range 5 km.", Toast.LENGTH_SHORT).show();
                 if(pResult.getStatus().equals("REQUEST_DENIED"))
                     Toast.makeText(this.mContext, "Sorry, Can't request location. Please contact to administrator", Toast.LENGTH_SHORT).show();
-                //Error ??????????????????????? ???? Over_query Limit
                 return;
             }
             mMap.clear();
