@@ -124,13 +124,16 @@ public class MainActivity extends Activity {
         protected void onPostExecute(Result result) { //???????????? ?? Backgrounds ?????????
             super.onPostExecute(result);
             if(!result.getStatus().equals("OK")) {
-                if(!result.getStatus().equals("ZERO_RESULTS"))
-                    Toast.makeText(this.context, "Sorry, Can't find" + mPlaceName[0][mSpinner.getSelectedItemPosition()] + " in range 5 km.", Toast.LENGTH_SHORT).show();
-                if(!result.getStatus().equals("REQUEST_DENIED"))
+                if(result.getStatus().equals("ZERO_RESULTS"))
+                    Toast.makeText(this.context, "Sorry, Can't find " + mPlaceName[0][mSpinner.getSelectedItemPosition()] + " in range 5 km.", Toast.LENGTH_SHORT).show();
+                if(result.getStatus().equals("REQUEST_DENIED"))
                     Toast.makeText(this.context, "Sorry, Can't request location. Please contact to administrator", Toast.LENGTH_SHORT).show();
                 //Error ??????????????????????? ???? Over_query Limit
                 return;
             }
+
+
+
             mMap.clear();
             for(int i = 0; i < result.getPlaces().size(); i++) {
                 mMap.addMarker(new MarkerOptions()
