@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
         //endregion
         //region Intialzation Location Manager
         mLocationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, mLocationListener);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, mLocationListener); // Update every 1 seconds in min range 10 meters
         List<String> providers = mLocationManager.getProviders(true);
         Location bestLocation = null;
         for(String p : providers) {
@@ -56,14 +56,6 @@ public class MainActivity extends Activity {
             }
         }
         mUserLocation = bestLocation;
-
-
-        //mUserLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        System.out.println("Lastnoiche : " + mUserLocation.getLatitude());
-         // Update every 1 seconds and 10 meters
-
-        //mLocationManager.removeUpdates(mLocationListener);
-
         //endregion
         //region Initialzation Spinner Menu
         int index = 0;
