@@ -128,6 +128,7 @@ public class MainActivity extends Activity {
         @Override
         protected void onPostExecute(Result pResult) {
             super.onPostExecute(pResult);
+            mMap.clear();
             if(!pResult.getStatus().equals("OK")) {
                 if(pResult.getStatus().equals("ZERO_RESULTS"))
                     Toast.makeText(this.mContext, "Sorry, Can't find " + mPlaceName[0][mSpinner.getSelectedItemPosition()] + " in range 5 km.", Toast.LENGTH_SHORT).show();
@@ -135,7 +136,6 @@ public class MainActivity extends Activity {
                     Toast.makeText(this.mContext, "Sorry, Can't request location. Please contact to administrator", Toast.LENGTH_SHORT).show();
                 return;
             }
-            mMap.clear();
             for(int i = 0; i < pResult.getPlaces().size(); i++) {
                 mMap.addMarker(new MarkerOptions()
                     .title(pResult.getPlaces().get(i).getName())
